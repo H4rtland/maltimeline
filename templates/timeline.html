@@ -1,0 +1,70 @@
+{% extends "master.html" %}
+
+{% block title %}{{ user.username }}'s timeline{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+    <div class="page-header">
+        <h3>
+            <img src="{{ user.picture }}" width="65" height="65" style="margin-left: 10px; margin-right: 10px;">
+            <b>
+                <a href="https://myanimelist.net/animelist/{{ user.username }}">{{ user.username }}</a>
+            </b>'s timeline
+        </h3>
+    </div>
+    <div style="margin: 20px;">
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#unlisted-list">Unlisted <span class="badge">{{ unlisted|length }}</span></button>
+        <div id="unlisted-list" class="collapse">
+            <ul>
+                {% for anime, reason in unlisted %}
+                    <li><a href="https://myanimelist.net/anime/{{ anime.id }}">{{ anime.title }}</a> - {{ reason }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div style="width: 98%; overflow: hidden; left: 2%; position: relative; margin-bottom: 30px; overflow: visible; display: flex;">
+        <div class="timeline-canvas">
+            {% if years|length > 0 %}
+                {% for year in years %}
+                    <div class="vertical-line-container" style="left: {{ year.percent }}%;">
+                        <div class="vertical-line">
+                            <div style="margin-left: 2px;">
+                                {{ year.year }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% for season in seasons %}
+                <div class="vertical-line-container" style="left: {{ season.percent }}%;">
+                    <div class="vertical-line" style="background-color: darkgrey;"></div>
+                </div>
+            {% endfor %}
+
+            {% if years|length > 0 %}
+                <div style="display: inline-block"></div><div></div>
+            {% endif %}
+
+            <div style="display: block;">
+                <div class="timeline-date" style="float: left;">{{ earliest_start }}</div>
+                <div class="timeline-date" style="float: right;">{{ today }}</div>
+                <div></div>
+            </div>
+            <div style="display: inline-block"></div><div></div>
+            {% for list_entry in anime_list %}
+                <div class="timeline-entry" style="left: {{ list_entry.position }}%; width: {{ list_entry.width }}%; background-color: {{ {true: "#c9302c", false: "#2e6da4"}[list_entry.watching] }};">
+                    <a href="https://myanimelist.net/anime/{{ list_entry.anime.id }}" class="timeline-title">
+                        {{ list_entry.anime.title }}
+                    </a>
+                    <span class="timeline-hover">
+                        <img class="timeline-hover-picture" src="{{ list_entry.anime.picture }}">
+                        <div>{{ list_entry.anime.title }}</div>
+                        <div>{{ list_entry.duration }} day{{ {true: "s", false:""}[list_entry.duration != 1] }}</div>
+                    </span>
+                </div>
+                <div></div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

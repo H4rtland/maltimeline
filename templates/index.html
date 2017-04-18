@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <div class="container">
+        {% if debug %}
+            <div><a href="{{ url_for("timeline", username="h4rtland") }}">H4rtland</a></div>
+            <div><a href="{{ url_for("timeline", username="Taleroth") }}">Taleroth</a></div>
+            <div><a href="{{ url_for("timeline", username="AmethystItalian") }}">AmethystItalian</a></div>
+        {% endif %}
+    </div>
+
+    {# %}<div class="container">
+        <div class="panel panel-default" style="max-width: 50%;">
+            <div class="panel-body" style="text-align: center;">
+
+                <h3>MAL Timeline</h3>
+
+                <div style="width: 100%;">
+                    <form action="/timeline" class="navbar-form" method="get">
+                        <div class="input-group">
+                            <input class="form-control" name="username" placeholder="Search MAL usernames" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div> #}
+
+{% endblock %}

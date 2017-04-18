@@ -1,0 +1,10 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}This is an example page{% endblock %}
+
+{% block navbar %}
+    {{ nav.nav_bar_renderer.render(renderer="custom_renderer") }}
+{% endblock %}
+
+{% block content %}
+Master page
+{% endblock %}
